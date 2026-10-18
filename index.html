@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#030102">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%82%3C/text%3E%3C/svg%3E">
+  <title>Happy Birthday 🎂</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Caveat:wght@500;600;700&family=Cairo:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="gift-page" id="giftPage">
+
+    <!-- الإطار والنصوص الجانبية (بتظهر على الشاشات الكبيرة بس) -->
+    <div class="corners-overlay" aria-hidden="true">
+      <div class="corner tl"></div><div class="corner tr"></div>
+      <div class="corner bl"></div><div class="corner br"></div>
+    </div>
+    <div class="side-text left" aria-hidden="true">BIRTHDAY • CELEBRATION</div>
+    <div class="side-text right" aria-hidden="true">WITH LOVE • FOR YOU</div>
+
+    <!-- قلوب طايرة + علم الزينة + كونفيتي -->
+    <div class="letter-hearts-container" id="hearts" aria-hidden="true"></div>
+    <svg class="bunting" id="bunting" aria-hidden="true" preserveAspectRatio="none"></svg>
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+    <main id="stage">
+
+      <!-- ================= 1) القفل ================= -->
+      <section class="screen" id="screen-lock">
+        <div class="content-wrapper lock-wrap">
+          <div class="lock-icon" id="lockIcon"><span>🔐</span></div>
+          <p class="lock-eyebrow" id="lockEyebrow"></p>
+          <h1 class="gift-title lock-title" dir="ltr"><span class="t1" id="lockTitle"></span><br><span id="lockAccent"></span></h1>
+
+          <div class="pin-dots" id="pinDots" aria-hidden="true"></div>
+
+          <div class="keypad" id="keypad" dir="ltr">
+            <button type="button" class="key" data-k="1">1</button>
+            <button type="button" class="key" data-k="2">2</button>
+            <button type="button" class="key" data-k="3">3</button>
+            <button type="button" class="key" data-k="4">4</button>
+            <button type="button" class="key" data-k="5">5</button>
+            <button type="button" class="key" data-k="6">6</button>
+            <button type="button" class="key" data-k="7">7</button>
+            <button type="button" class="key" data-k="8">8</button>
+            <button type="button" class="key" data-k="9">9</button>
+            <span class="key-gap"></span>
+            <button type="button" class="key" data-k="0">0</button>
+            <button type="button" class="key key-del" data-k="del" aria-label="مسح">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H9l-6 7 6 7h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z"/><path d="M17 9.5l-5 5M12 9.5l5 5"/></svg>
+            </button>
+          </div>
+
+          <p class="lock-hint" id="lockHint"></p>
+        </div>
+      </section>
+
+      <!-- ================= 2) الرسالة ================= -->
+      <section class="screen" id="screen-letter" hidden>
+        <div class="content-wrapper">
+          <div class="letter-card" id="letterCard">
+            <div class="top-accent-sq"></div>
+
+            <svg class="heart-photo" viewBox="0 0 120 112" aria-hidden="true">
+              <defs>
+                <clipPath id="heartClip"><path d="M60 105 C60 105 5 65 5 32 C5 15 20 6 36 6 C48 6 56 15 60 24 C64 15 72 6 84 6 C100 6 115 15 115 32 C115 65 60 105 60 105 Z"/></clipPath>
+                <linearGradient id="heartPh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a0b1f"/><stop offset="1" stop-color="#831843"/></linearGradient>
+              </defs>
+              <g clip-path="url(#heartClip)">
+                <rect width="120" height="112" fill="url(#heartPh)"/>
+                <text id="letterPhText" x="60" y="62" text-anchor="middle" font-size="30">💗</text>
+                <image id="letterPhoto" width="120" height="112" preserveAspectRatio="xMidYMid slice" opacity="0"/>
+              </g>
+              <path d="M60 105 C60 105 5 65 5 32 C5 15 20 6 36 6 C48 6 56 15 60 24 C64 15 72 6 84 6 C100 6 115 15 115 32 C115 65 60 105 60 105 Z" fill="none" stroke="#f472b6" stroke-width="2.5"/>
+            </svg>
+
+            <h2 class="letter-title" id="letterTitle" dir="ltr"></h2>
+            <div class="letter-scroll-area" id="letterScroll">
+              <div class="letter-body" id="letterBody"></div>
+              <div class="letter-divider" id="letterDiv"><span>✦</span></div>
+              <div class="signature" id="letterSign"><p id="letterClosing" dir="ltr"></p><p id="letterSignature" dir="ltr"></p></div>
+            </div>
+          </div>
+          <p class="tap-skip" id="letterSkip">اضغط لإظهار الرسالة كاملة</p>
+          <button type="button" class="btn-primary" id="letterNext" hidden></button>
+        </div>
+      </section>
+
+      <!-- ================= 3) الذكريات (ألبوم) ================= -->
+      <section class="screen" id="screen-album" hidden>
+        <div class="content-wrapper">
+          <h2 class="gift-title italic" id="albumTitle" dir="ltr"></h2>
+          <p class="subtitle muted" id="albumSub" dir="ltr"></p>
+
+          <div class="album-stage" id="albumStage">
+            <!-- الغلاف -->
+            <button type="button" class="album-cover polaroid-card" id="albumCover">
+              <div class="cover-photo" id="albumCoverPhoto"></div>
+              <p class="cover-tap" id="albumOpen" dir="ltr"></p>
+            </button>
+
+            <!-- قياس سطور الكلام (مخفي) -->
+            <div class="viewer-caption probe" id="viewerProbe" aria-hidden="true"></div>
+
+            <!-- العارض: الكارت بيتفصّل على مقاس الصورة، وتحتها كلام -->
+            <div class="album-viewer" id="albumViewer" hidden>
+              <div class="viewer-stage" id="viewerStage">
+                <div class="polaroid-card viewer-card" id="viewerCard">
+                  <div class="polaroid-pin"></div>
+                  <div class="viewer-photo" id="viewerPhoto"></div>
+                  <div class="viewer-caption empty" id="viewerCaption"></div>
+                </div>
+              </div>
+              <div class="viewer-nav" dir="ltr">
+                <button type="button" class="round-btn" id="albumPrev" aria-label="previous">←</button>
+                <div class="thumbs" id="albumThumbs"></div>
+                <button type="button" class="round-btn" id="albumNext" aria-label="next">→</button>
+              </div>
+              <button type="button" class="btn-secondary small" id="albumBack" dir="ltr"></button>
+            </div>
+          </div>
+
+          <button type="button" class="btn-primary" id="albumContinue" hidden></button>
+        </div>
+      </section>
+
+      <!-- ================= 4) السؤال ================= -->
+      <section class="screen" id="screen-question" hidden>
+        <div class="stars-bg" id="qStars" aria-hidden="true"></div>
+        <div class="content-wrapper">
+          <p class="subtitle" id="qEyebrow" dir="ltr"></p>
+          <h1 class="gift-title" id="qTitle" dir="ltr"></h1>
+
+          <div id="qAsk">
+            <div class="round-photo" id="qPhoto"></div>
+            <div class="q-buttons" id="qButtons" dir="ltr">
+              <button type="button" class="btn-primary" id="qYes"></button>
+              <button type="button" class="secret-link" id="qNo"></button>
+            </div>
+          </div>
+
+          <div id="qDone" hidden>
+            <div class="round-photo" id="qDonePhoto"></div>
+            <h2 class="gift-title done-title" id="qDoneTitle" dir="ltr"></h2>
+            <p class="description light" id="qDoneText" dir="ltr"></p>
+            <button type="button" class="btn-primary" id="qNext"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5) كروت الصور ================= -->
+      <section class="screen" id="screen-moments" hidden>
+        <div class="content-wrapper">
+          <h2 class="gift-title italic" id="mTitle" dir="ltr"></h2>
+          <p class="subtitle muted" id="mHint"></p>
+          <div class="m-stack" id="mStack"></div>
+          <p class="m-counter" id="mCounter" dir="ltr"></p>
+          <button type="button" class="btn-primary" id="mNext" hidden></button>
+        </div>
+      </section>
+
+      <!-- ================= 6) الشمعة ================= -->
+      <section class="screen" id="screen-candle" hidden>
+        <div class="candle-dark" id="candleDark" aria-hidden="true"></div>
+        <div class="content-wrapper candle-wrap">
+
+          <button type="button" class="svg-container cake" id="cake" aria-label="candle">
+            <div class="cake-glow" id="cakeGlow"></div>
+            <svg viewBox="0 0 220 250" fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="ckBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9d1d58"/><stop offset="1" stop-color="#5e0f33"/></linearGradient>
+                <linearGradient id="ckTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ec4899"/><stop offset="1" stop-color="#be185d"/></linearGradient>
+                <linearGradient id="ckIcing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1f7"/><stop offset="1" stop-color="#fbcfe8"/></linearGradient>
+                <linearGradient id="ckPlate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a1630"/><stop offset="1" stop-color="#26091a"/></linearGradient>
+                <linearGradient id="ckCandle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f9a8d4"/><stop offset=".5" stop-color="#fff5fa"/><stop offset="1" stop-color="#f472b6"/></linearGradient>
+                <linearGradient id="ckFlame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fb923c"/><stop offset=".55" stop-color="#facc15"/><stop offset="1" stop-color="#fffbe0"/></linearGradient>
+                <radialGradient id="ckGlow"><stop offset="0" stop-color="#facc15" stop-opacity=".85"/><stop offset=".4" stop-color="#fb923c" stop-opacity=".3"/><stop offset="1" stop-color="#f472b6" stop-opacity="0"/></radialGradient>
+              </defs>
+
+              <ellipse cx="110" cy="226" rx="104" ry="12" fill="#000" opacity=".55"/>
+              <ellipse cx="110" cy="214" rx="102" ry="14" fill="url(#ckPlate)" stroke="#50152d" stroke-width="1.5"/>
+
+              <!-- الطبقة السفلية -->
+              <rect x="28" y="146" width="164" height="66" rx="13" fill="url(#ckBase)"/>
+              <path d="M28 158 Q28 140 46 140 H174 Q192 140 192 158 V164 Q192 176 183 176 Q174 176 174 164 Q174 156 165 156 Q156 156 156 168 Q156 182 147 182 Q138 182 138 168 Q138 158 129 158 Q120 158 120 168 Q120 176 111 176 Q102 176 102 166 Q102 158 93 158 Q84 158 84 168 Q84 180 75 180 Q66 180 66 168 Q66 158 57 158 Q48 158 48 166 Q48 174 40 174 Q28 174 28 164 Z" fill="url(#ckIcing)"/>
+              <g fill="#f472b6"><circle cx="46" cy="198" r="4"/><circle cx="70" cy="201" r="4"/><circle cx="94" cy="198" r="4"/><circle cx="118" cy="201" r="4"/><circle cx="142" cy="198" r="4"/><circle cx="166" cy="201" r="4"/></g>
+
+              <!-- الطبقة العلوية -->
+              <rect x="54" y="98" width="112" height="52" rx="12" fill="url(#ckTop)"/>
+              <path d="M54 110 Q54 98 66 98 H154 Q166 98 166 110 V114 Q166 124 158 124 Q150 124 150 114 Q150 108 142 108 Q134 108 134 118 Q134 130 126 130 Q118 130 118 118 Q118 110 110 110 Q102 110 102 118 Q102 126 94 126 Q86 126 86 116 Q86 108 78 108 Q70 108 70 116 Q70 122 62 122 Q54 122 54 114 Z" fill="url(#ckIcing)"/>
+              <g fill="#fbcfe8"><circle cx="76" cy="141" r="3.2"/><circle cx="96" cy="137" r="3.2"/><circle cx="116" cy="142" r="3.2"/><circle cx="136" cy="137" r="3.2"/><circle cx="154" cy="142" r="3.2"/></g>
+
+              <!-- الشمعة -->
+              <rect x="105" y="58" width="10" height="42" rx="3" fill="url(#ckCandle)"/>
+              <g fill="#db2777" opacity=".8"><rect x="105" y="68" width="10" height="4"/><rect x="105" y="80" width="10" height="4"/><rect x="105" y="92" width="10" height="4"/></g>
+              <line x1="110" y1="58" x2="110" y2="51" stroke="#3b1624" stroke-width="1.6" stroke-linecap="round"/>
+
+              <path id="ckSmoke" d="M110 48 C 99 32, 122 20, 109 4 S 99 -20, 111 -36" fill="none" stroke="rgba(255,240,248,.7)" stroke-width="2.2" stroke-linecap="round" opacity="0"/>
+
+              <g id="ckFlameWrap">
+                <circle cx="110" cy="38" r="38" fill="url(#ckGlow)"/>
+                <path class="flame" d="M110 22 C 118 33 119 43 110 51 C 101 43 102 33 110 22 Z" fill="url(#ckFlame)"/>
+              </g>
+            </svg>
+          </button>
+
+          <div id="candleWish">
+            <h2 class="gift-title" id="candleWishTitle" dir="ltr"></h2>
+            <p class="description" id="candleWishText"></p>
+            <button type="button" class="btn-primary" id="candleBlow" dir="ltr"></button>
+          </div>
+
+          <div id="candleDone" hidden>
+            <h2 class="gift-title" id="candleDoneTitle" dir="ltr"></h2>
+            <p class="description light" id="candleDoneText"></p>
+            <button type="button" class="btn-secondary" id="candleAgain" dir="ltr"></button>
+            <div class="end-footer">
+              <div class="crown">👑</div>
+              <p class="end-line" id="candleFooter" dir="ltr"></p>
+              <p class="end-small" id="candleFooterSmall" dir="ltr"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- شريط التنقل (التقدّم) -->
+    <nav class="floating-navbar" id="dock" aria-label="progress" hidden>
+      <button type="button" data-go="letter" title="Message">💌</button>
+      <button type="button" data-go="album" title="Memories">📸</button>
+      <button type="button" data-go="question" title="Question">💍</button>
+      <button type="button" data-go="moments" title="Moments">🃏</button>
+      <button type="button" data-go="candle" title="Cake">🎂</button>
+    </nav>
+
+    <!-- زرار الموسيقى (تحت على اليمين) -->
+    <button type="button" class="music-btn" id="musicBtn" aria-label="music">
+      <span class="ring"></span>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+      <i class="slash"></i>
+    </button>
+  </div>
+
+  <audio id="song" preload="auto" loop></audio>
+
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/confetti.min.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/fx.js"></script>
+  <script src="js/lock.js"></script>
+  <script src="js/letter.js"></script>
+  <script src="js/album.js"></script>
+  <script src="js/question.js"></script>
+  <script src="js/moments.js"></script>
+  <script src="js/candle.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

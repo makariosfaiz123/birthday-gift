@@ -1,0 +1,345 @@
+/* =====================================================================
+   css/style.css — نفس لغة تصميم موقع hbdbabbyyyy (أسود + وردي #f472b6 / #db2777)
+   مبني للموبايل أولاً.
+   ===================================================================== */
+:root {
+  --bg: #030102;
+  --card: #0d0407;
+  --card2: #1c0710;
+  --line: #451325;
+  --line2: #50152d;
+  --pink: #f472b6;
+  --pink-d: #db2777;
+  --pink-l: #fbcfe8;
+  --wine: #831843;
+  --muted: #94a3b8;
+  --display: 'Cormorant Garamond', Georgia, 'Aref Ruqaa', serif;
+  --ui: 'Nunito', 'Cairo', system-ui, sans-serif;
+  --ar: 'Cairo', 'Nunito', system-ui, sans-serif;
+  --hand: 'Aref Ruqaa', 'Cormorant Garamond', serif;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); color: #f1f5f9; font-family: var(--ui); }
+body { -webkit-font-smoothing: antialiased; overscroll-behavior: none; touch-action: manipulation; }
+button { font-family: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+/* ------------------------- الخلفية ------------------------- */
+.gift-page {
+  position: fixed; inset: 0; overflow: hidden;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 50% 12%, rgba(244,114,182,.15) 0, transparent 55%),
+    radial-gradient(circle at 50% 45%, rgba(219,39,119,.12) 0, transparent 55%),
+    radial-gradient(circle at 50% 80%, rgba(244,114,182,.14) 0, transparent 60%),
+    linear-gradient(180deg, #030102, #0d0407 50%, #030102);
+}
+.gift-page::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.015) 1px, transparent 0), linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 0);
+  background-size: 60px 60px;
+}
+
+.corners-overlay { position: fixed; inset: 20px; pointer-events: none; z-index: 50; }
+.corner { position: absolute; width: 25px; height: 25px; border: 1px solid rgba(244,114,182,.3); }
+.corner.tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+.corner.tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+.corner.bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+.corner.br { bottom: 0; right: 0; border-left: none; border-top: none; }
+.side-text {
+  position: fixed; top: 50%; color: rgba(244,114,182,.4); font-size: .55rem; letter-spacing: .3em;
+  pointer-events: none; z-index: 50; text-transform: uppercase; direction: ltr; white-space: nowrap;
+}
+.side-text.left { left: -60px; transform: translateY(-50%) rotate(-90deg); }
+.side-text.right { right: -60px; transform: translateY(-50%) rotate(90deg); }
+@media (max-width: 480px) { .corners-overlay, .side-text { display: none; } }
+
+/* قلوب طايرة */
+.letter-hearts-container { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 15; }
+.floating-heart {
+  position: absolute; bottom: -60px; user-select: none; pointer-events: none; will-change: transform, opacity;
+  animation: floatUp var(--duration, 7s) ease-in-out infinite var(--delay, 0s);
+  filter: drop-shadow(0 0 10px rgba(244,114,182,.45));
+}
+@keyframes floatUp {
+  0%   { transform: translateZ(0) scale(.6) rotate(0deg); opacity: 0; }
+  15%  { opacity: var(--max-opacity, .85); }
+  85%  { opacity: var(--max-opacity, .85); }
+  100% { transform: translate3d(var(--sway-x, 25px), calc(-100vh - 80px), 0) scale(1.15) rotate(var(--rot, 15deg)); opacity: 0; }
+}
+.click-heart-burst {
+  position: fixed; user-select: none; pointer-events: none; z-index: 120; will-change: transform, opacity;
+  animation: burstHeart 1.3s cubic-bezier(.22,1,.36,1) forwards; filter: drop-shadow(0 0 12px rgba(244,114,182,.65));
+}
+@keyframes burstHeart {
+  0%   { transform: translateZ(0) scale(.3); opacity: 1; }
+  60%  { opacity: .95; }
+  100% { transform: translate3d(var(--bx, 0), var(--by, -110px), 0) scale(1.35) rotate(var(--br, 15deg)); opacity: 0; }
+}
+
+/* علم الزينة */
+.bunting { position: fixed; top: 0; left: 0; width: 100%; height: 84px; z-index: 30; pointer-events: none; opacity: .85; }
+#confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 100; pointer-events: none; }
+
+/* ------------------------- الشاشات ------------------------- */
+#stage { position: absolute; inset: 0; z-index: 20; }
+.screen {
+  position: absolute; inset: 0; z-index: 20; display: flex; overflow-x: hidden; overflow-y: auto;
+  padding: calc(74px + var(--safe-t)) 15px calc(92px + var(--safe-b));
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.screen::-webkit-scrollbar { display: none; }
+.content-wrapper {
+  width: 100%; max-width: 600px; margin: auto; padding: 8px 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+}
+
+/* ------------------------- عناصر مشتركة ------------------------- */
+.subtitle { color: var(--pink); font-size: .75rem; text-transform: uppercase; letter-spacing: .2em; margin-bottom: .8rem; font-weight: 700; }
+.subtitle.muted { color: var(--muted); }
+.gift-title { font-family: var(--display); font-weight: 600; font-size: clamp(2.5rem, 7.4vw, 3.9rem); color: #fff; line-height: 1.12; margin-bottom: 1rem; }
+.gift-title.italic { font-style: italic; margin-bottom: .2rem; }
+.gift-title span.accent, .gift-title .acc { color: var(--pink); font-style: italic; }
+.description { color: var(--muted); font-style: italic; max-width: 450px; line-height: 1.7; margin-bottom: 1.5rem; font-size: .98rem; font-family: var(--ar); }
+.description.light { color: var(--pink-l); font-size: 1.05rem; font-style: normal; }
+
+.btn-primary, .btn-secondary {
+  border: none; padding: .8rem 2.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; box-shadow: 0 5px 20px rgba(244,114,182,.3);
+  font-family: var(--ui);
+}
+.btn-primary { background: linear-gradient(135deg, #f472b6, #db2777); color: #fff; }
+.btn-primary:active { transform: scale(.96); }
+.btn-secondary { background: linear-gradient(135deg, #180d12, #080305); color: #fff; border: 1px solid var(--line2); }
+.btn-secondary:active { transform: scale(.96); border-color: var(--pink); }
+.btn-secondary.small { font-size: .85rem; padding: .5rem 1.4rem; margin: 0 auto; }
+.btn-primary.pulse { animation: btnPulse 2.2s ease-in-out infinite; }
+@keyframes btnPulse { 0%,100% { box-shadow: 0 5px 20px rgba(244,114,182,.3); } 50% { box-shadow: 0 5px 32px rgba(244,114,182,.7); } }
+@media (hover: hover) {
+  .btn-primary:hover { transform: scale(1.05); box-shadow: 0 5px 25px rgba(244,114,182,.5); }
+  .btn-secondary:hover { transform: scale(1.05); border-color: var(--pink); }
+}
+.secret-link { color: #a1a1aa; font-size: .9rem; cursor: pointer; background: none; border: none; }
+.round-btn {
+  background: #381322; border: 1px solid var(--pink); color: var(--pink-l); width: 45px; height: 45px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(0,0,0,.3);
+}
+.round-btn:active { transform: scale(.92); }
+
+.polaroid-card {
+  position: relative; background: var(--card); padding: 8px 8px 24px; border: 1px solid var(--line); border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.7);
+}
+.polaroid-pin { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 28px; height: 8px; background: rgba(244,114,182,.3); border-radius: 2px; z-index: 5; }
+
+/* وسائط: صورة / GIF / فيديو / مربع تجريبي */
+.ph { position: relative; width: 100%; height: 100%; overflow: hidden; background: linear-gradient(145deg, #2a0a17, #5a1233 60%, #831843); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
+.ph .ph-main { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; -webkit-user-drag: none; }
+/* الصورة كاملة (من غير قص) وحواليها خلفية مغبّشة منها */
+.ph.fit-blur .ph-main { object-fit: contain; z-index: 1; }
+.ph .ph-bg { position: absolute; inset: -14%; width: 128%; height: 128%; object-fit: cover; filter: blur(18px) brightness(.55) saturate(1.25); pointer-events: none; }
+.ph .ph-heart { font-size: 2.4rem; filter: drop-shadow(0 0 14px rgba(244,114,182,.6)); }
+.ph .ph-label { font-size: .75rem; letter-spacing: .15em; color: rgba(251,207,232,.7); text-transform: uppercase; }
+.ph.is-loading::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(110deg, transparent 30%, rgba(244,114,182,.2) 50%, transparent 70%); background-size: 220% 100%; animation: shimmer 1.3s linear infinite; }
+@keyframes shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+.thumb .ph .ph-heart { font-size: 1.15rem; }
+.thumb .ph .ph-label { display: none; }
+.ph.is-video .ph-play { position: relative; z-index: 2; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .55rem; padding-inline-start: 1px; color: #fff; background: rgba(13,4,7,.72); border: 1px solid rgba(244,114,182,.7); }
+
+/* أزرار الفيديو (صوت + شريط تقدّم + علامة إيقاف/تشغيل) */
+.vid-ui { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.vid-sound {
+  position: absolute; right: 8px; bottom: 12px; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  color: var(--pink-l); background: rgba(13,4,7,.72); border: 1px solid rgba(244,114,182,.5); cursor: pointer; pointer-events: auto;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.vid-sound.on { color: #fff; background: rgba(219,39,119,.8); border-color: var(--pink); }
+.vid-prog { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.14); }
+.vid-prog b { display: block; width: 0; height: 100%; background: var(--pink); box-shadow: 0 0 8px var(--pink); }
+.vid-glyph { position: absolute; left: 50%; top: 50%; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; background: rgba(13,4,7,.6); opacity: 0; }
+.vid-glyph.show { animation: glyphPop .7s ease-out forwards; }
+@keyframes glyphPop { 0% { opacity: 0; transform: scale(.6); } 25% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.25); } }
+
+/* ------------------------- 1) القفل ------------------------- */
+#screen-lock { padding-bottom: calc(56px + var(--safe-b)); }
+.lock-wrap { --key: clamp(54px, 9.4vh, 72px); }
+.lock-icon { font-size: 2.6rem; margin-bottom: .5rem; filter: drop-shadow(0 0 16px rgba(244,114,182,.55)); line-height: 1.2; }
+.lock-icon span { display: inline-block; animation: lockFloat 3.4s ease-in-out infinite; }
+@keyframes lockFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.lock-eyebrow { font-family: var(--hand); font-size: 1.3rem; color: var(--pink); margin-bottom: .3rem; }
+.lock-title { font-size: clamp(2.1rem, 6.4vw, 3rem); margin-bottom: 1.1rem; }
+.lock-title #lockAccent { color: var(--pink); font-style: italic; }
+
+.pin-dots { display: flex; gap: 12px; direction: ltr; margin-bottom: clamp(18px, 4.2vh, 32px); }
+.pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid rgba(244,114,182,.55); transition: transform .22s cubic-bezier(.3,1.6,.5,1), background .2s, box-shadow .2s, border-color .2s; }
+.pin-dot.on { background: radial-gradient(circle at 35% 30%, #fff1f7, #f472b6 55%, #db2777); border-color: transparent; box-shadow: 0 0 12px rgba(244,114,182,.8); transform: scale(1.18); }
+.pin-dots.err .pin-dot { border-color: #fb7185; background: #fb7185; box-shadow: 0 0 12px rgba(251,113,133,.7); }
+.pin-dots.ok .pin-dot { background: #fff; box-shadow: 0 0 18px #f472b6, 0 0 6px #fff; }
+.pin-dots.shake { animation: shake .5s cubic-bezier(.36,.07,.19,.97); }
+@keyframes shake { 10%,90% { transform: translateX(-2px); } 20%,80% { transform: translateX(4px); } 30%,50%,70% { transform: translateX(-8px); } 40%,60% { transform: translateX(8px); } }
+
+.keypad { display: grid; grid-template-columns: repeat(3, var(--key)); gap: clamp(10px, 1.9vh, 16px) clamp(16px, 5vw, 24px); justify-content: center; }
+.key {
+  width: var(--key); height: var(--key); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  background: rgba(244,114,182,.07); border: 1px solid rgba(244,114,182,.28); color: #fff;
+  font-family: var(--ui); font-weight: 300; font-size: calc(var(--key) * .42); line-height: 1;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: transform .12s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 6px 16px rgba(0,0,0,.35);
+  user-select: none; -webkit-user-select: none;
+}
+.key:active, .key.pressed { transform: scale(.9); background: rgba(244,114,182,.3); border-color: var(--pink); box-shadow: 0 0 18px rgba(244,114,182,.45); }
+.key-del { background: transparent; border-color: transparent; box-shadow: none; color: var(--pink); }
+.key-gap { width: var(--key); height: var(--key); }
+.lock-hint { margin-top: clamp(14px, 3vh, 26px); font-family: var(--hand); font-size: 1.12rem; color: rgba(244,114,182,.9); min-height: 1.8em; transition: color .3s; }
+.lock-hint.wrong { color: #fda4af; font-size: 1.3rem; }
+
+/* ------------------------- 2) الرسالة ------------------------- */
+.letter-card {
+  position: relative; background: var(--card); border: 1px solid var(--line); border-top: 2px solid var(--pink); border-radius: 16px;
+  padding: 1.6rem 1.5rem 1.4rem; width: 100%; max-width: 550px; box-shadow: 0 20px 40px rgba(0,0,0,.8); display: flex; flex-direction: column;
+}
+.top-accent-sq { width: 14px; height: 14px; background: var(--pink-l); margin: 0 auto 1.1rem; border-radius: 2px; }
+.heart-photo { width: 118px; height: 110px; margin: 0 auto 10px; display: block; overflow: visible; filter: drop-shadow(0 0 14px rgba(244,114,182,.5)); }
+.letter-title { color: var(--pink); font-family: var(--display); font-style: italic; font-weight: 600; font-size: 2.2rem; margin-bottom: .9rem; text-align: center; }
+.letter-scroll-area { overflow-y: auto; max-height: clamp(170px, 31vh, 400px); padding-inline-end: 8px; scrollbar-width: thin; scrollbar-color: var(--pink) transparent; }
+.letter-scroll-area::-webkit-scrollbar { width: 4px; }
+.letter-scroll-area::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
+.letter-body { color: var(--pink); line-height: 2; font-size: 1.05rem; font-family: var(--ar); text-align: start; margin-bottom: 1rem; }
+.letter-body .para { display: block; min-height: 1em; }
+.letter-body .para + .para { margin-top: .15rem; }
+.letter-body .w { display: inline-block; position: relative; white-space: nowrap; }
+.letter-body .ghost { visibility: hidden; }
+.letter-body .typed { position: absolute; top: 0; inset-inline-start: 0; white-space: nowrap; }
+.letter-body .typed.caret::after { content: ""; display: inline-block; width: 2px; height: 1.15em; margin-inline-start: 2px; vertical-align: text-bottom; background: var(--pink); box-shadow: 0 0 8px var(--pink); animation: blink .8s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.letter-divider { border-top: 1px solid var(--line); margin: 1rem 0 1.3rem; position: relative; display: flex; justify-content: center; opacity: 0; }
+.letter-divider span { background: var(--card); color: var(--pink); position: absolute; top: -11px; padding: 0 10px; font-size: .9rem; }
+.signature { text-align: center; opacity: 0; }
+.signature p:first-child { color: #a1a1aa; font-size: .75rem; text-transform: uppercase; letter-spacing: .15em; }
+.signature p:last-child { color: var(--pink); font-family: var(--display); font-style: italic; font-weight: 600; font-size: 2.2rem; margin-top: .2rem; }
+.tap-skip { margin-top: 12px; font-size: .78rem; color: rgba(244,114,182,.55); letter-spacing: .04em; font-family: var(--ar); transition: opacity .4s; }
+#letterNext { margin-top: 18px; font-family: var(--ar); }
+
+@media (max-height: 700px) {
+  .heart-photo { width: 92px; height: 86px; margin-bottom: 4px; }
+  .letter-title { font-size: 1.8rem; margin-bottom: .5rem; }
+  .letter-card { padding: 1.2rem 1.2rem 1rem; }
+}
+
+/* ------------------------- 3) الألبوم ------------------------- */
+.album-stage { position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; perspective: 1400px; margin-top: .6rem; }
+.album-cover {
+  width: 100%; max-width: 310px; background: var(--card2); border: 2px solid var(--line2); border-radius: 16px; padding: 16px; text-align: center; cursor: pointer;
+  box-shadow: 0 10px 30px rgba(219,39,119,.35); transform-origin: 100% 50%; display: block; transition: border-color .3s ease;
+}
+.album-cover:active { border-color: var(--pink); }
+.cover-photo { width: 100%; aspect-ratio: 5 / 6; max-height: 44vh; border-radius: 10px; overflow: hidden; margin-bottom: 12px; position: relative; }
+.cover-tap { color: var(--pink); font-size: .9rem; font-weight: 700; letter-spacing: .1em; animation: tapPulse 2s ease-in-out infinite; }
+@keyframes tapPulse { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
+.album-viewer { width: 100%; max-width: 330px; display: flex; flex-direction: column; align-items: center; }
+/* الكارت بيتفصّل على مقاس الصورة (الـJS بيحط عرض وطول الصورة)، والمنطقة اللي حواليه ثابتة عشان الأزرار ماتتحركش */
+.viewer-stage { position: relative; width: 100%; height: 335px; display: flex; align-items: center; justify-content: center; margin-bottom: .6rem; touch-action: pan-y; }
+.viewer-card { min-width: 210px; max-width: 100%; padding: 12px; background: var(--card2); display: flex; flex-direction: column; align-items: stretch; }
+.viewer-photo { position: relative; flex: 0 0 auto; margin: 0 auto; border-radius: 8px; overflow: hidden; background: #1a050c; }
+.viewer-photo .slide { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* مكان الكلام تحت الصورة */
+.viewer-caption { margin-top: 10px; width: 0; min-width: 100%; max-height: calc(1.55em * 4); overflow-y: auto; scrollbar-width: none; text-align: center; font-family: var(--ar); font-size: .92rem; line-height: 1.55; color: var(--pink-l); overflow-wrap: anywhere; }
+.viewer-caption::-webkit-scrollbar { display: none; }
+.viewer-caption.empty { display: none; }
+.viewer-caption.probe { position: absolute; left: 0; top: 0; visibility: hidden; pointer-events: none; margin: 0; min-width: 0; width: auto; }
+.viewer-nav { display: flex; align-items: center; gap: 8px; width: 100%; margin-bottom: .9rem; }
+.viewer-nav .round-btn { flex: 0 0 auto; width: 40px; height: 40px; font-size: 1.05rem; }
+.thumbs { display: flex; gap: 10px; flex: 1 1 auto; min-width: 0; overflow-x: auto; padding: 8px 6px; justify-content: safe center; scrollbar-width: none; }
+.thumbs::-webkit-scrollbar { display: none; }
+.thumb { flex: 0 0 auto; width: 46px; height: 46px; padding: 0; background: none; border-radius: 8px; overflow: hidden; position: relative; cursor: pointer; border: 1px solid var(--line2); opacity: .6; transition: all .2s; }
+.thumb.active { border: 2px solid var(--pink); transform: scale(1.1); box-shadow: 0 0 10px rgba(244,114,182,.5); opacity: 1; }
+#albumContinue { margin-top: .9rem; font-family: var(--ar); }
+
+/* ------------------------- 4) السؤال ------------------------- */
+.stars-bg { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1s; }
+.stars-bg.on { opacity: 1; }
+.stars-bg i { position: absolute; width: 3px; height: 3px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px var(--pink); animation: twinkle 2.4s ease-in-out infinite; }
+@keyframes twinkle { 0%,100% { opacity: .2; transform: scale(.8); } 50% { opacity: .9; transform: scale(1.3); } }
+.round-photo { position: relative; width: 180px; height: 180px; margin: 15px auto; border-radius: 50%; overflow: hidden; border: 2.5px solid var(--pink); box-shadow: 0 0 28px rgba(244,114,182,.45); }
+.q-buttons { position: relative; width: 100%; min-height: 190px; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; margin-top: 15px; }
+#qYes { transition: font-size .25s, padding .25s, transform .3s; }
+#qNo { padding: .8rem 1.5rem; background: var(--card); border-radius: 8px; border: 1px solid var(--line); margin: 0; font-size: .95rem; font-family: var(--ui); white-space: nowrap; will-change: transform; }
+.done-title { color: var(--pink); font-size: 2.4rem; margin-top: 10px; }
+#qNext { font-family: var(--ar); margin-top: .5rem; }
+
+/* ------------------------- 5) كروت الصور ------------------------- */
+.m-stack { position: relative; width: min(72vw, 290px); aspect-ratio: 4 / 5.7; margin: 1.2rem auto 1.4rem; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab; }
+.m-stack.no-text { aspect-ratio: 4 / 5.1; }
+.m-stack:active { cursor: grabbing; }
+.pol {
+  position: absolute; inset: 0; background: var(--card2); border: 1px solid var(--line2); border-radius: 8px; padding: 12px 12px 0;
+  box-shadow: 0 10px 28px rgba(0,0,0,.75); display: flex; flex-direction: column; will-change: transform; backface-visibility: hidden;
+}
+.pol::before { content: ""; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 34px; height: 9px; background: rgba(244,114,182,.35); border-radius: 2px; z-index: 5; }
+.pol .pol-photo { flex: 1 1 auto; border-radius: 4px; overflow: hidden; position: relative; min-height: 0; }
+/* تحت الصورة: التاريخ وتحته كلام (لحد 3 سطور) */
+.pol .pol-cap { flex: 0 0 98px; padding: 6px 4px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; overflow: hidden; }
+.m-stack.no-text .pol .pol-cap { flex-basis: 58px; }
+.pol .pol-date { font-family: 'Caveat', cursive; font-weight: 600; font-size: 1.7rem; line-height: 1.05; color: var(--pink); letter-spacing: .02em; direction: ltr; }
+.pol .pol-text { max-width: 100%; text-align: center; font-family: var(--ar); font-size: .84rem; line-height: 1.5; color: rgba(251,207,232,.88); overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.m-counter { color: var(--muted); font-size: .85rem; letter-spacing: .2em; margin-bottom: 1rem; }
+#mNext { font-family: var(--ar); }
+
+/* ------------------------- 6) الشمعة ------------------------- */
+.candle-dark { position: absolute; inset: 0; z-index: 1; background: radial-gradient(circle at 50% 38%, rgba(0,0,0,.55), rgba(0,0,0,.94) 70%); opacity: 0; pointer-events: none; }
+.candle-wrap { position: relative; z-index: 2; }
+.svg-container.cake { position: relative; width: 100%; max-width: 230px; aspect-ratio: 220 / 250; margin: 0 auto 1.2rem; background: none; border: none; cursor: pointer; display: block; filter: drop-shadow(0 20px 30px rgba(0,0,0,.8)); }
+.svg-container.cake svg { width: 100%; height: 100%; overflow: visible; }
+.cake-glow { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(244,114,182,.22) 0, transparent 72%); z-index: -1; pointer-events: none; transition: opacity .6s; }
+.cake.out .cake-glow { opacity: .25; }
+.flame { transform-origin: 110px 51px; animation: flicker .18s ease-in-out infinite alternate; }
+@keyframes flicker { from { transform: scale(1, 1) skewX(-1.5deg); } to { transform: scale(.94, 1.06) skewX(1.5deg); } }
+#candleWish .gift-title, #candleDone .gift-title { font-size: clamp(2.2rem, 7vw, 3.2rem); }
+#candleWish .gift-title .acc, #candleDone .gift-title .acc { color: var(--pink); font-style: italic; }
+.end-footer { margin-top: 2.2rem; text-align: center; }
+.end-footer .crown { font-size: 1.8rem; margin-bottom: 8px; }
+.end-line { color: var(--pink); font-style: italic; font-family: var(--display); font-size: 1.35rem; font-weight: 600; }
+.end-small { font-size: .8rem; color: #64748b; margin-top: 6px; letter-spacing: .15em; }
+
+/* ------------------------- شريط التنقل ------------------------- */
+.floating-navbar {
+  position: fixed; bottom: calc(22px + var(--safe-b)); left: 50%; transform: translateX(-50%); z-index: 95;
+  background: rgba(13,4,7,.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(244,114,182,.35); border-radius: 50px; padding: 8px 16px; display: flex; align-items: center; gap: 12px; direction: ltr;
+  box-shadow: 0 10px 30px rgba(0,0,0,.8), 0 0 15px rgba(244,114,182,.2);
+}
+.floating-navbar button { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 3px; border-radius: 50%; line-height: 1; transition: transform .2s ease, filter .2s ease, opacity .3s; opacity: .32; position: relative; }
+.floating-navbar button.seen { opacity: .75; }
+.floating-navbar button.current { opacity: 1; transform: scale(1.25); filter: drop-shadow(0 0 8px #f472b6); }
+.floating-navbar button:disabled { cursor: default; }
+
+/* زرار الموسيقى */
+.music-btn {
+  position: fixed; right: 16px; bottom: calc(22px + var(--safe-b)); z-index: 96; width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; color: var(--pink);
+  background: rgba(13,4,7,.85); border: 1px solid rgba(244,114,182,.4); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.8), 0 0 15px rgba(244,114,182,.2);
+}
+.music-btn:active { transform: scale(.92); }
+.music-btn .ring { position: absolute; inset: -1px; border-radius: 50%; border: 1px solid var(--pink); opacity: 0; }
+.music-btn .slash { position: absolute; width: 26px; height: 2px; background: var(--pink); border-radius: 2px; transform: rotate(-45deg); box-shadow: 0 0 0 2px rgba(13,4,7,.9); transition: opacity .3s; }
+.music-btn svg { transition: opacity .3s; }
+.music-btn.playing .slash { opacity: 0; }
+.music-btn.playing svg { animation: noteBob 1.4s ease-in-out infinite; filter: drop-shadow(0 0 6px rgba(244,114,182,.8)); }
+.music-btn.playing .ring { animation: ringPulse 1.8s ease-out infinite; }
+.music-btn:not(.playing) svg { opacity: .55; }
+@keyframes noteBob { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-2px) rotate(6deg); } }
+@keyframes ringPulse { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.6); opacity: 0; } }
+
+@media (max-width: 380px) {
+  .floating-navbar { gap: 8px; padding: 7px 12px; }
+  .music-btn { right: 10px; width: 42px; height: 42px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-heart, .lock-icon, .flame, .btn-primary.pulse { animation: none; }
+}
